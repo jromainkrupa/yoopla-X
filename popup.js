@@ -1,4 +1,23 @@
-  
+// retrieving infos from local storage to insert into popup.html
+chrome.storage.local.get(null, request => {
+  document.getElementById("name").innerHTML = request.name;
+  document.getElementById("jobTitle").innerHTML = request.current_job_title;
+  button = document.getElementById("sendButton")
+  if (button) {
+    document.addEventListener('click', () => {
+      fetch("http://localhost:3000/api/v1/hunter/candidates", {
+        method: "POST",
+        body: JSON.stringify({ name: request.name, current_job_title: request.current_job_title })
+      })
+      .then(response => response.json())
+      .then((data) => {
+        console.log(data);   
+      })
+    })
+  }
+});
+
+
 
   // console.log('in popup.js');
   
