@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Yoopla X",
+    "description": "Import your linkedin candidates directly to Yoopla ATS."
+  },
+  "appDesc": {
+    "message": "This extension does something awesome.",
+    "description": "Import your linkedin candidates directly to Yoopla ATS."
+  }
+}
