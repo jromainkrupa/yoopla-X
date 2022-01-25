@@ -7,7 +7,14 @@ chrome.storage.local.get(null, request => {
     document.addEventListener('click', () => {
       fetch("http://localhost:3000/api/v1/hunter/candidates", {
         method: "POST",
-        body: JSON.stringify({ name: request.name, current_job_title: request.current_job_title })
+        headers: {
+          'X-User-Token': 'RkCFkcxJUG4M_eSCqao1',
+          'X-User-Email': "azert@qsdfgh.com",
+          'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          first_name: request.name, 
+          current_job_title: request.current_job_title,
+          linkedin_url: request.linkedin_url})
       })
       .then(response => response.json())
       .then((data) => {
