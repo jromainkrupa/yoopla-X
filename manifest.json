@@ -22,7 +22,7 @@
     }
   ],
   "host_permissions": [
-    "http://localhost:3000/*"
+    "http://localhost:3000/*", "https://www.linkedin.com/*"
   ],
   "permissions": [
     "activeTab",

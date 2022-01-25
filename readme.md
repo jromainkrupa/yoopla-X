@@ -19,8 +19,8 @@ chrome.action.onClicked.addListener((tab) => {})
 ````
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {})
 ````
-5. Parse and store linkedin profile infos into variable foreground send message to popup
-6. Display profile infos on Chrome extension popup to the user
+5. Parse and store linkedin profile infos into variable foreground send message to background
+6. Display profile infos on Chrome extension popup to the user when chrome is clicked
 7. if user click import button 
 8. POST Candidate#create to yoopla api
 9. if errors display errors on popup page else prompt success.
