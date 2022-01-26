@@ -62,7 +62,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   
   if (request.message in messageFunctionMapper) {
     messageFunctionMapper[request.message](request)
-
   }
 });
   
