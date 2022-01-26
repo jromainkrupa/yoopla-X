@@ -1,11 +1,12 @@
 // Check if user is connected to yoopla by checking cookies
-chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(cookie, tab) {
-  if (cookie) {
-    chrome.storage.local.set({ user_token: cookie.value });
-  } else {
-    chrome.action.setPopup({popup: 'popup_unconnected.html'})
-  }
-})
+const handleSessionCookies = () => {
+  chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(cookie, tab) {
+    console.log('in cookies');
+    if (cookie) {
+      chrome.storage.local.set({ user_token: cookie.value });
+    } 
+  })
+}
 const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
 
 // every time a user goes on a linkedin profile foreground.js script is launched
@@ -23,8 +24,16 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 // launching popup.html when user clicks on extension badge
 chrome.action.onClicked.addListener((tab) => {
-  chrome.action.setPopup({
-    popup: 'popup.html'
+  console.log('click');
+  handleSessionCookies()
+  chrome.storage.local.get(null, request => {
+    if (request.user_token) {
+      chrome.action.setPopup({
+        popup: 'popup.html'
+      })
+    } else {
+      chrome.action.setPopup({popup: 'popup_unconnected.html'})
+    }
   })
 })
 

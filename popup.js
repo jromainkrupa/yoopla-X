@@ -16,9 +16,21 @@ chrome.storage.local.get(null, request => {
           current_job_title: request.current_job_title,
           linkedin_url: request.linkedin_url})
       })
-      .then(response => response.json())
-      .then((data) => {
-        console.log(data);   
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {          
+          console.log(response.status);
+          
+          throw new Error(response.status)
+        }
+      })
+      .then((responseJson) => {
+        console.log(responseJson);
+      })
+      .catch((error) => {
+        console.log(error);
+        
       })
     })
   }
