@@ -6,32 +6,40 @@ chrome.storage.local.get(null, request => {
   button = document.getElementById("sendButton")
   if (button) {
     document.addEventListener('click', () => {
-      fetch("http://localhost:3000/api/v1/hunter/candidates", {
-        method: "POST",
-        headers: {
-          'X-User-Token': request.user_token,
-          'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          first_name: request.name, 
-          current_job_title: request.current_job_title,
-          linkedin_url: request.linkedin_url})
+
+      chrome.runtime.sendMessage({
+        message: 'fetch',
+        first_name: request.name, 
+        current_job_title: request.current_job_title,
+        linkedin_url: request.linkedin_url
       })
-      .then((response) => {
-        if (response.ok) {
-          return response.json()
-        } else {          
-          console.log(response.status);
+
+      // fetch("http://localhost:3000/api/v1/hunter/candidates", {
+      //   method: "POST",
+      //   headers: {
+      //     'X-User-Token': request.user_token,
+      //     'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ 
+      //     first_name: request.name, 
+      //     current_job_title: request.current_job_title,
+      //     linkedin_url: request.linkedin_url})
+      // })
+      // .then((response) => {
+      //   if (response.ok) {
+      //     return response.json()
+      //   } else {          
+      //     console.log(response.status);
           
-          throw new Error(response.status)
-        }
-      })
-      .then((responseJson) => {
-        console.log(responseJson);
-      })
-      .catch((error) => {
-        console.log(error);
+      //     throw new Error(response.status)
+      //   }
+      // })
+      // .then((responseJson) => {
+      //   console.log(responseJson);
+      // })
+      // .catch((error) => {
+      //   console.log(error);
         
-      })
+      // })
     })
   }
 });

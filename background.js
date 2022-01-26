@@ -1,16 +1,15 @@
 // Check if user is connected to yoopla by checking cookies
-const handleSessionCookies = () => {
-  chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(cookie, tab) {
-    console.log('in cookies');
-    if (cookie) {
-      chrome.storage.local.set({ user_token: cookie.value });
-    } 
-  })
-}
+// const handleSessionCookies = () => {
+//   chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(cookie, tab) {
+//     console.log('in cookies');
+//     if (cookie) {
+//       chrome.storage.local.set({ user_token: cookie.value });
+//     } 
+//   })
+// }
 const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
 
 // every time a user goes on a linkedin profile foreground.js script is launched
-// if the user is not on linkedin, popup not on linkedin appears
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && /^http/.test(tab.url)) {
     if (tab.url.match(isLinkedinProfileRegex) ) {
@@ -24,34 +23,46 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 // launching popup.html when user clicks on extension badge
 chrome.action.onClicked.addListener((tab) => {
-  console.log('click');
-  handleSessionCookies()
-  chrome.storage.local.get(null, request => {
-    if (request.user_token) {
-      chrome.action.setPopup({
-        popup: 'popup.html'
-      })
-    } else {
-      chrome.action.setPopup({popup: 'popup_unconnected.html'})
-    }
+  chrome.action.setPopup({
+    popup: 'popup.html'
   })
 })
 
-const storeProfileInYoopla = () => {
-    // choppe le cookie
+const storeProfileInYoopla = (request) => {
+  chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(cookie, tab) {
+    console.log('in cookies');
+    console.log(cookie.name);
+    
+    if (cookie) {
+      fetch("http://localhost:3000/api/v1/hunter/candidates", {
+        method: "POST",
+        headers: {
+          'X-User-Token': cookie.value,
+          'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          first_name: request.name, 
+          current_job_title: request.current_job_title,
+          linkedin_url: request.linkedin_url})
+      })
+    } else {
+      chrome.action.setPopup({
+        popup: 'popup_unconnected.html'
+      })
+    }
+  })
     // fetch depuis le background plutot que popup.js
 }
 
 // listening to messages
 const messageFunctionMapper = { 
-  toto: storeProfileInYoopla
+  fetch: storeProfileInYoopla
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request !== undefined) {
-    console.log(request);
-  } else if (request.message in messsageFunctionMapper) {
-    messageFunctionMapper[request.message]()
+  console.log(request, sender, sendResponse );
+  
+  if (request.message in messageFunctionMapper) {
+    messageFunctionMapper[request.message](request)
 
   }
 });
