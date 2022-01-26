@@ -2,14 +2,14 @@
 chrome.storage.local.get(null, request => {
   document.getElementById("name").innerHTML = request.name;
   document.getElementById("jobTitle").innerHTML = request.current_job_title;
+
   button = document.getElementById("sendButton")
   if (button) {
     document.addEventListener('click', () => {
       fetch("http://localhost:3000/api/v1/hunter/candidates", {
         method: "POST",
         headers: {
-          'X-User-Token': 'RkCFkcxJUG4M_eSCqao1',
-          'X-User-Email': "azert@qsdfgh.com",
+          'X-User-Token': request.user_token,
           'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           first_name: request.name, 
@@ -23,38 +23,3 @@ chrome.storage.local.get(null, request => {
     })
   }
 });
-
-
-
-  // console.log('in popup.js');
-  
-
-  // // retrieving current tab
-  // chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
-  //   // depending on current tab url
-  //   // use `url` here inside the callback because it's asynchronous
-  //   let url = tabs[0].url;
-    
-  //   // depending if user is on a linkedin profile url
-  //   if (url.match(/https:\/\/www.linkedin.com\/in/)) {
-  //     // set the import candidate popup
-  //     console.log('on linkedin profile should display popup');
-  //     let text = document.querySelector('#text')
-  //     text.innerHTML = 'you are on linkedin <button id="parse">Click me</button>'
-  //     button = document.querySelector('#parse')
-  //     const name = document.querySelector('h1')
-  //     console.log(name);
-      
-
-      
-
-  //   } else {
-  //     // set the popup to prompt the user to go on linkedin. 
-  //     console.log('on linkedin profile should display popup');
-  //     let text = document.querySelector('#text')
-  //     text.innerHTML = 'you are NOT on linkedin'
-
-  //     // chrome.action.setPopup({popup: 'popup_not_linkedin.html'})
-  //   }
-    
-  // });
