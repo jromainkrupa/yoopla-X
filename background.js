@@ -40,7 +40,7 @@ const storeProfileInYoopla = (request) => {
           'X-User-Token': cookie.value,
           'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          first_name: request.name, 
+          first_name: request.first_name, 
           current_job_title: request.current_job_title,
           linkedin_url: request.linkedin_url})
       })
@@ -50,7 +50,6 @@ const storeProfileInYoopla = (request) => {
       })
     }
   })
-    // fetch depuis le background plutot que popup.js
 }
 
 // listening to messages
