@@ -10,6 +10,18 @@ body {
   width: 100px;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.text-gray-800 {
+  color: #989A9C;
+}
+
 .text-white {
   color: white;
 }
@@ -51,6 +63,18 @@ body {
   font-size: 0.875rem;
   text-decoration: none;
   height: 40px;
+  line-height: 40px;
   color: white;
+  font-weight: bold;
   background-color: #662AE5;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #5619dc;
+  ;
+}
+
+.bg-lilac {
+  background-color: #FCFBFF;
 }
