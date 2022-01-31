@@ -9,18 +9,22 @@ const notConnectedToYooplaHTML = `
 const notOnLinkedinHTML = `
 <div class="flex flex-col items-center justify-center p-8">
   <img id="logo" src="images/logo_purple_full.png" alt="logo yoopla">
-  <p class="mt-4 text-gray-800">Please go on linkedin profile to start to import candidates.</p>
+  <p class="mt-4 text-gray-800">YooplaX is now active.</p>
+  <p class="mt-4 text-gray-800">Just go on a Linkedin profile and add a candidate on Yoopla.</p>
 </div>`
 
 const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
 
 
-// retrieving infos from local storage to insert into popup.html
+// retrieving infos from local storage to insert into popup
 chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(cookie, tab) {
+  // if yoopla's cookie signed_in present
   if (cookie) {
     query = { active: true, currentWindow: true };
     chrome.tabs.query(query, (tabs) => {
-      var currentTab = tabs[0]; // there will be only one in this array
+      let currentTab = tabs[0];
+
+      // if the current tab is a linkedin candidate
       if (currentTab.url.match(isLinkedinProfileRegex)) {
         chrome.storage.local.get(null, request => {
           document.getElementById("name").innerHTML = request.name;
@@ -42,7 +46,6 @@ chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(co
         
       } else {
         document.querySelector('body').innerHTML = notOnLinkedinHTML
-        
       }
     });
 

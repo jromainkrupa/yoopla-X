@@ -7,7 +7,8 @@ ce_linkedin_url = window.location.href
 // building json 
 user = {name: ce_name, 
         current_job_title: ce_job_title,
-        linkedin_url: ce_linkedin_url}
+        linkedin_url: ce_linkedin_url       
+}
 
 // saving json into local storage
 chrome.storage.local.set(user)
