@@ -1,13 +1,19 @@
-// Check if user is connected to yoopla by checking cookies
-// const handleSessionCookies = () => {
+const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
+
+// // Check if user is connected to yoopla by checking cookies on install
+// chrome.runtime.onInstalled.addListener(() => {
 //   chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(cookie, tab) {
 //     console.log('in cookies');
 //     if (cookie) {
-//       chrome.storage.local.set({ user_token: cookie.value });
-//     } 
+//       chrome.storage.local.set({ user_token: cookie.value, logged_in: true });
+//       chrome.action.setPopup({popup: 'popup.html'})
+//     } else {
+//       chrome.storage.local.set({ logged_in: false });
+//       chrome.action.setPopup({popup: 'popup_unconnected.html'})       
+//     }
 //   })
-// }
-const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
+// })
+
 
 // every time a user goes on a linkedin profile foreground.js script is launched
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -22,32 +28,26 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 })
 
 // launching popup.html when user clicks on extension badge
-chrome.action.onClicked.addListener((tab) => {
-  chrome.action.setPopup({
-    popup: 'popup.html'
-  })
-})
+// chrome.action.onClicked.addListener((tab) => {
+
+// })
 
 const storeProfileInYoopla = (request) => {
-  chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(cookie, tab) {
-    console.log('in cookies');
-    console.log(cookie.name);
-    
-    if (cookie) {
+  chrome.storage.local.get(null, request => {
+    if (request.logged_in) {
       fetch("http://localhost:3000/api/v1/hunter/candidates", {
         method: "POST",
         headers: {
-          'X-User-Token': cookie.value,
+          'X-User-Token': request.user_token,
           'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           first_name: request.first_name, 
           current_job_title: request.current_job_title,
           linkedin_url: request.linkedin_url})
       })
+      .then(response => console.log(response.json()))
     } else {
-      chrome.action.setPopup({
-        popup: 'popup_unconnected.html'
-      })
+      chrome.action.setPopup("")
     }
   })
 }
