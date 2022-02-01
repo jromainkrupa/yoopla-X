@@ -32,8 +32,9 @@ chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(co
         
           button = document.getElementById("sendButton")
           if (button) {
-            document.addEventListener('click', () => {
-        
+            
+            button.addEventListener('click', (event) => {
+              event.preventDefault()
               chrome.runtime.sendMessage({
                 message: 'fetch',
                 first_name: request.first_name, 
@@ -49,10 +50,6 @@ chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(co
         document.querySelector('body').innerHTML = notOnLinkedinHTML
       }
     });
-
-
-    // chrome.storage.local.set({ user_token: cookie.value, logged_in: true });
-    // chrome.action.setPopup({popup: 'popup.html'})
   } else {
     document.querySelector('body').innerHTML = notConnectedToYooplaHTML
   }
@@ -62,12 +59,8 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
       if (request.msg === "errors_in_fetch") {
         document.querySelector('body').innerHTML = '<p>There is an error</p>'
-          console.log(request.data.subject)
-          console.log(request.data.content)
       } else if (request.msg === "successful_fetch") {
         document.querySelector('body').innerHTML = '<p>This is a success</p>'
-        console.log(request.data.subject)
-        console.log(request.data.content)
       }
   }
 );

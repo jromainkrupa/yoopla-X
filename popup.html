@@ -6,11 +6,86 @@
 
   </head>
   <body>
-    <div class="flex flex-col items-center justify-center p-8">
-      <p id="name" class=""></p>
-      <p id="jobTitle"></p>
-      <button id="sendButton">Import to Yoopla</button>
+    <div class="container">
+      <div class="header">
+        <div class="">
+          <h1 id="name" class=""></h1>
+          <p id="jobTitle"></p>
+        </div>
+      </div>
+      <div class="mx-auto w-10-12 form-wrapper mt-8">
+        <div class="form-group">
+          <div class="label-wrapper text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd" />
+            </svg>
+            <label class="text-gray-800 ml-2">Company Name</label>
+          </div>
+          <input type="text" value="" placeholder="Add a company" class="form-control">
+        </div>
+        
+        <div class="form-group mt-4">
+          <div class="label-wrapper text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd" />
+              <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
+            </svg>
+            <label class="text-gray-800 ml-2">Job Title</label>
+          </div>
+          <input type="text" value="" placeholder="Add a job title" class="form-control">
+        </div>
+        
+        
+        <div class="form-group mt-4">
+          <div class="label-wrapper text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+            <label class="text-gray-800 ml-2">Email</label>
+          </div>
+          <input type="text" value="" placeholder="Add an email" class="form-control">
+        </div>
+        
+        <div class="form-group mt-4">
+          <div class="label-wrapper text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            <label class="text-gray-800 ml-2">Phone Number</label>
+          </div>
+          <input type="text" value="" placeholder="Add a phone number" class="form-control">
+        </div>
+        
+        <div class="form-group mt-4">
+          <div class="label-wrapper text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
+            </svg>
+            <label class="text-gray-800 ml-2">Linkedin profile url</label>
+          </div>
+          <input type="text" value="" placeholder="Add a linkedin profile url" class="form-control">
+        </div>
+        
+        <div class="form-group mt-4">
+          <div class="label-wrapper text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+              <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+            </svg>
+            <label class="text-gray-800 ml-2">Add notes</label>
+          </div>
+          <input type="text" value="" placeholder="Add your personal notes" class="form-control">
+        </div>
+      </div>
     </div>
+    <div class="footer text-center">
+      <div class="job-select">
+
+      </div>
+      <a class="btn" id="sendButton">Import to Yoopla</a>
+    </div>
+  
     <script src="popup.js"></script>
   </body>
 </html>
