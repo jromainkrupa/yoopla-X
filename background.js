@@ -31,7 +31,10 @@ const storeProfileInYoopla = (request) => {
           first_name: request.first_name, 
           last_name: request.last_name, 
           current_job_title: request.current_job_title,
-          linkedin_url: request.linkedin_url})
+          linkedin_url: request.linkedin_url,
+          profile_url: request.profile_url,
+          current_company: request.current_company
+        })
       })
       .then((response) => response.json())
       .then((data) => {

@@ -29,7 +29,10 @@ chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(co
         chrome.storage.local.get(null, request => {
           document.getElementById("name").innerHTML = `${request.first_name} ${request.last_name}`;
           document.getElementById("jobTitle").innerHTML = request.current_job_title;
-        
+          document.getElementById("input-job-title").value = request.current_job_title
+          document.getElementById("input-linkedin-url").value = request.linkedin_url
+          document.getElementById("input-company").value = request.current_company
+          document.getElementById("profile-picture").src = request.profile_url        
           button = document.getElementById("sendButton")
           if (button) {
             

@@ -3,6 +3,11 @@ el = document.querySelector('h1')
 ce_name = el.innerText.split(/\s/,2)
 ce_job_title = el.parentNode.nextElementSibling.innerText
 ce_linkedin_url = window.location.href
+ce_profile_url = document.querySelector(`img[alt='${el.innerText}']`).src
+ce_current_company = document.querySelector("div[aria-label='Current company']").innerText
+console.log(ce_current_company);
+
+
 
 // building json 
 user = 
@@ -10,7 +15,9 @@ user =
         first_name: ce_name[0], 
         last_name: ce_name[1], 
         current_job_title: ce_job_title,
-        linkedin_url: ce_linkedin_url       
+        linkedin_url: ce_linkedin_url,   
+        profile_url: ce_profile_url,
+        current_company: ce_current_company    
         }
 
 // saving json into local storage
