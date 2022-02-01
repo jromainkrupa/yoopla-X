@@ -11,7 +11,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     } 
   }
 })
-
+// function CheckError(response) {
+//   if (response.status >= 200 && response.status <= 299) {
+//     return response.json();
+//   } else {
+//     throw Error(response.statusText);
+//   }
+// }
 
 const storeProfileInYoopla = (request) => {
   chrome.storage.local.get(null, request => {
@@ -23,10 +29,32 @@ const storeProfileInYoopla = (request) => {
           'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           first_name: request.first_name, 
+          last_name: request.last_name, 
           current_job_title: request.current_job_title,
           linkedin_url: request.linkedin_url})
       })
-      .then(response => console.log(response.json()))
+      .then((response) => response.json())
+      .then((data) => {
+        if ('errors' in data) {
+          chrome.runtime.sendMessage({
+            msg: "errors_in_fetch", 
+            data: {
+                subject: "errors",
+                content: data
+            }
+          });
+
+            
+        } else if ('id' in data) {
+          chrome.runtime.sendMessage({
+            msg: "successful_fetch", 
+            data: {
+                subject: "success",
+                content: data
+            }
+          });
+        }
+      })
     }
   })
 }
@@ -43,4 +71,3 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     messageFunctionMapper[request.message](request)
   }
 });
-  

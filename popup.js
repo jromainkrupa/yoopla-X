@@ -27,7 +27,7 @@ chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(co
       // if the current tab is a linkedin candidate
       if (currentTab.url.match(isLinkedinProfileRegex)) {
         chrome.storage.local.get(null, request => {
-          document.getElementById("name").innerHTML = request.name;
+          document.getElementById("name").innerHTML = `${request.first_name} ${request.last_name}`;
           document.getElementById("jobTitle").innerHTML = request.current_job_title;
         
           button = document.getElementById("sendButton")
@@ -36,7 +36,8 @@ chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(co
         
               chrome.runtime.sendMessage({
                 message: 'fetch',
-                first_name: request.name, 
+                first_name: request.first_name, 
+                last_name: request.last_name, 
                 current_job_title: request.current_job_title,
                 linkedin_url: request.linkedin_url
               })
@@ -56,3 +57,17 @@ chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(co
     document.querySelector('body').innerHTML = notConnectedToYooplaHTML
   }
 })
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+      if (request.msg === "errors_in_fetch") {
+        document.querySelector('body').innerHTML = '<p>There is an error</p>'
+          console.log(request.data.subject)
+          console.log(request.data.content)
+      } else if (request.msg === "successful_fetch") {
+        document.querySelector('body').innerHTML = '<p>This is a success</p>'
+        console.log(request.data.subject)
+        console.log(request.data.content)
+      }
+  }
+);
