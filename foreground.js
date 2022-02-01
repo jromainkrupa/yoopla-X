@@ -4,10 +4,8 @@ ce_name = el.innerText.split(/\s/,2)
 ce_job_title = el.parentNode.nextElementSibling.innerText
 ce_linkedin_url = window.location.href
 ce_profile_url = document.querySelector(`img[alt='${el.innerText}']`).src
-ce_current_company = document.querySelector("div[aria-label='Current company']").innerText
-console.log(ce_current_company);
-
-
+ce_current_company = document.querySelector('[aria-label="Current company"]')
+console.log(ce_name,ce_job_title, ce_linkedin_url, ce_current_company);
 
 // building json 
 user = 

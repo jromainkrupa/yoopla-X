@@ -6,7 +6,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (tab.url.match(isLinkedinProfileRegex) ) {
       chrome.scripting.executeScript({
         target: { tabId: tabId },
-        files: ["./foreground.js"]
+        files: ["./foreground.js"],
       })
     } 
   }
@@ -32,8 +32,8 @@ const storeProfileInYoopla = (request) => {
           last_name: request.last_name, 
           current_job_title: request.current_job_title,
           linkedin_url: request.linkedin_url,
-          profile_url: request.profile_url,
-          current_company: request.current_company
+          avatar_url: request.profile_url,
+          current_company_name: request.current_company
         })
       })
       .then((response) => response.json())
