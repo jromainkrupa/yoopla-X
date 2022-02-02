@@ -23,7 +23,7 @@
     }
   ],
   "host_permissions": [
-    "http://localhost:3000/*", "https://www.linkedin.com/*"
+    "http://localhost:3000/*","https://app.yoopla.io/*", "https://www.linkedin.com/*"
   ],
   "permissions": [
     "activeTab",

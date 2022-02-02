@@ -23,7 +23,7 @@ const successHTML = `
 const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
 
 // retrieving infos from local storage to insert into popup
-chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(cookie, tab) {
+chrome.cookies.get({url:'https://app.yoopla.io', name:'signed_in'}, function(cookie, tab) {
   // if yoopla's cookie signed_in present
   if (cookie) {
     query = { active: true, currentWindow: true };

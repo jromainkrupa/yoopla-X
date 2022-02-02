@@ -22,7 +22,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 const storeProfileInYoopla = (request) => {
   chrome.storage.local.get(null, request => {
     if (request.logged_in) {
-      fetch("http://localhost:3000/api/v1/hunter/candidates", {
+      fetch("https://app.yoopla.io/api/v1/hunter/candidates", {
         method: "POST",
         headers: {
           'X-User-Token': request.user_token,
