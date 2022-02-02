@@ -20,7 +20,8 @@ select {
   margin: 0 auto;
   padding: 0 1rem;;
 }
-.footer {
+
+#footer {
   background-color: white;
   position: sticky;
   bottom: 0;
@@ -36,6 +37,10 @@ select {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+}
+#fetch-result {
+  display: flex;
+  align-items: center;
 }
 
 #logo {
@@ -98,6 +103,18 @@ select {
 
 .text-white {
   color: white;
+}
+
+.text-red {
+  color: #ef4444;
+}
+
+.text-green {
+  color: #22c55e;
+}
+
+.text-purple {
+  color: #662AE5;
 }
 
 .flex {

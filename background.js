@@ -38,12 +38,14 @@ const storeProfileInYoopla = (request) => {
       })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
+        
         if ('errors' in data) {
           chrome.runtime.sendMessage({
             msg: "errors_in_fetch", 
-            data: {
+            content: {
                 subject: "errors",
-                content: data
+                errors: data['errors']
             }
           });
 
@@ -51,7 +53,7 @@ const storeProfileInYoopla = (request) => {
         } else if ('id' in data) {
           chrome.runtime.sendMessage({
             msg: "successful_fetch", 
-            data: {
+            content: {
                 subject: "success",
                 content: data
             }

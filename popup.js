@@ -13,8 +13,14 @@ const notOnLinkedinHTML = `
   <p class="mt-4 text-gray-800">Just go on a Linkedin profile and add a candidate on Yoopla.</p>
 </div>`
 
-const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
+const successHTML = `      
+<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green" viewBox="0 0 20 20" fill="currentColor">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+</svg>
+<p class="text-gray-800 ml-2">Candidate imported</p>`
 
+
+const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
 
 // retrieving infos from local storage to insert into popup
 chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(cookie, tab) {
@@ -61,9 +67,18 @@ chrome.cookies.get({url:'http://localhost:3000/', name:'signed_in'}, function(co
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
       if (request.msg === "errors_in_fetch") {
-        document.querySelector('body').innerHTML = '<p>There is an error</p>'
+        console.log(request.content.errors.first);
+        
+        document.getElementById('fetch-result').innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-gray-800 ml-2">${request.content.errors[0]}</p>`
+        successHTML
       } else if (request.msg === "successful_fetch") {
-        document.querySelector('body').innerHTML = '<p>This is a success</p>'
+        document.getElementById('fetch-result').innerHTML = successHTML
+
+
       }
   }
 );
