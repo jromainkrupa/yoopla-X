@@ -1,9 +1,7 @@
-const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
-
 // every time a user goes on a linkedin profile foreground.js script is launched
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && /^http/.test(tab.url)) {
-    if (tab.url.match(isLinkedinProfileRegex) ) {
+    if (tab.url.match(/https:\/\/www.linkedin.com\/in/) ) {
       chrome.scripting.executeScript({
         target: { tabId: tabId },
         files: ["./foreground.js"],
@@ -37,9 +35,7 @@ const storeProfileInYoopla = (request) => {
         })
       })
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        
+      .then((data) => {        
         if ('errors' in data) {
           chrome.runtime.sendMessage({
             msg: "errors_in_fetch", 
@@ -48,8 +44,6 @@ const storeProfileInYoopla = (request) => {
                 errors: data['errors']
             }
           });
-
-            
         } else if ('id' in data) {
           chrome.runtime.sendMessage({
             msg: "successful_fetch", 

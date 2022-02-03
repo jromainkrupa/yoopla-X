@@ -4,7 +4,7 @@
   "description": "Import your Linkedin candidates directly to Yoopla ATS.",
   "default_locale": "en",
   "manifest_version": 3,
-  "version_name": "0.0.0.1",
+  "version_name": "0.0.0.2",
   "background": {
     "service_worker": "background.js"
   },

@@ -23,62 +23,62 @@ const successHTML = `
 const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
 
 // retrieving infos from local storage to insert into popup
-chrome.cookies.get({url:'https://app.yoopla.io', name:'signed_in'}, function(cookie, tab) {
-  // if yoopla's cookie signed_in present
-  if (cookie) {
-    query = { active: true, currentWindow: true };
-    chrome.tabs.query(query, (tabs) => {
-      let currentTab = tabs[0];
+if (chrome.cookies) {
 
-      // if the current tab is a linkedin candidate
-      if (currentTab.url.match(isLinkedinProfileRegex)) {
-        chrome.storage.local.get(null, request => {
-          document.getElementById("name").innerHTML = `${request.first_name} ${request.last_name}`;
-          document.getElementById("jobTitle").innerHTML = request.current_job_title;
-          document.getElementById("input-job-title").value = request.current_job_title
-          document.getElementById("input-linkedin-url").value = request.linkedin_url
-          document.getElementById("input-company").value = request.current_company
-          document.getElementById("profile-picture").src = request.profile_url        
-          button = document.getElementById("sendButton")
-          if (button) {
-            
-            button.addEventListener('click', (event) => {
-              event.preventDefault()
-              chrome.runtime.sendMessage({
-                message: 'fetch',
-                first_name: request.first_name, 
-                last_name: request.last_name, 
-                current_job_title: request.current_job_title,
-                linkedin_url: request.linkedin_url
+  chrome.cookies.get({url:'https://app.yoopla.io', name:'signed_in'}, function(cookie, tab) {
+    // if yoopla's cookie signed_in present
+    if (cookie) {
+      query = { active: true, currentWindow: true };
+      chrome.tabs.query(query, (tabs) => {
+        let currentTab = tabs[0];
+
+        // if the current tab is a linkedin candidate
+        if (currentTab.url.match(isLinkedinProfileRegex)) {
+          console.log(currentTab);
+          
+          chrome.storage.local.get(null, request => {
+            document.getElementById("name").innerHTML = `${request.first_name} ${request.last_name}`;
+            document.getElementById("jobTitle").innerHTML = request.current_job_title;
+            document.getElementById("input-job-title").value = request.current_job_title
+            document.getElementById("input-linkedin-url").value = request.linkedin_url
+            document.getElementById("input-company").value = request.current_company
+            document.getElementById("profile-picture").src = request.profile_url        
+            button = document.getElementById("sendButton")
+            if (button) {
+              
+              button.addEventListener('click', (event) => {
+                event.preventDefault()
+                chrome.runtime.sendMessage({
+                  message: 'fetch',
+                  first_name: request.first_name, 
+                  last_name: request.last_name, 
+                  current_job_title: request.current_job_title,
+                  linkedin_url: request.linkedin_url})
               })
-            })
-          }
-        });
-        
-      } else {
-        document.querySelector('body').innerHTML = notOnLinkedinHTML
-      }
-    });
-  } else {
-    document.querySelector('body').innerHTML = notConnectedToYooplaHTML
-  }
-})
+            }
+          });
+        } else {
+        document.querySelector('body').innerHTML = notOnLinkedinHTML }
+      });
+    } else {
+    document.querySelector('body').innerHTML = notConnectedToYooplaHTML }
+  })
+}
+
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-      if (request.msg === "errors_in_fetch") {
-        console.log(request.content.errors.first);
-        
-        document.getElementById('fetch-result').innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-          </svg>
-          <p class="text-gray-800 ml-2">${request.content.errors[0]}</p>`
-        successHTML
-      } else if (request.msg === "successful_fetch") {
-        document.getElementById('fetch-result').innerHTML = successHTML
-
-
-      }
+    if (request.msg === "errors_in_fetch") {
+      console.log(request.content.errors.first);
+      
+      document.getElementById('fetch-result').innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+        </svg>
+        <p class="text-gray-800 ml-2">${request.content.errors[0]}</p>`
+      successHTML
+    } else if (request.msg === "successful_fetch") {
+      document.getElementById('fetch-result').innerHTML = successHTML
+    }
   }
 );
