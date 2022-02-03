@@ -1,6 +1,6 @@
 {
   "name": "Yoopla X",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Import your Linkedin candidates directly to Yoopla ATS.",
   "default_locale": "en",
   "manifest_version": 3,
