@@ -9,52 +9,44 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     } 
   }
 })
-// function CheckError(response) {
-//   if (response.status >= 200 && response.status <= 299) {
-//     return response.json();
-//   } else {
-//     throw Error(response.statusText);
-//   }
-// }
 
 const storeProfileInYoopla = (request) => {
   chrome.storage.local.get(null, request => {
-    if (request.logged_in) {
-      fetch("https://app.yoopla.io/api/v1/hunter/candidates", {
-        method: "POST",
-        headers: {
-          'X-User-Token': request.user_token,
-          'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          first_name: request.first_name, 
-          last_name: request.last_name, 
-          current_job_title: request.current_job_title,
-          linkedin_url: request.linkedin_url,
-          avatar_url: request.profile_url,
-          current_company_name: request.current_company
-        })
+    fetch("https://app.yoopla.io/api/v1/hunter/candidates", {
+      method: "POST",
+      headers: {
+        'X-User-Token': request.user_token,
+        'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        first_name: request.first_name, 
+        last_name: request.last_name, 
+        current_job_title: request.current_job_title,
+        linkedin_url: request.linkedin_url,
+        avatar_url: request.profile_url,
+        current_company_name: request.current_company
       })
-      .then((response) => response.json())
-      .then((data) => {        
-        if ('errors' in data) {
-          chrome.runtime.sendMessage({
-            msg: "errors_in_fetch", 
-            content: {
-                subject: "errors",
-                errors: data['errors']
-            }
-          });
-        } else if ('id' in data) {
-          chrome.runtime.sendMessage({
-            msg: "successful_fetch", 
-            content: {
-                subject: "success",
-                content: data
-            }
-          });
-        }
-      })
-    }
+    })
+    .then((response) => response.json())
+    .then((data) => {        
+      if ('errors' in data) {
+        chrome.runtime.sendMessage({
+          msg: "errors_in_fetch", 
+          content: {
+              subject: "errors",
+              errors: data['errors']
+          }
+        });
+      } else if ('id' in data) {
+        chrome.runtime.sendMessage({
+          msg: "successful_fetch", 
+          content: {
+              subject: "success",
+              content: data
+          }
+        });
+      }
+    })
+    
   })
 }
 

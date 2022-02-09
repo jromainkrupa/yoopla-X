@@ -34,7 +34,6 @@ if (chrome.cookies) {
 
         // if the current tab is a linkedin candidate
         if (currentTab.url.match(isLinkedinProfileRegex)) {
-          console.log(currentTab);
           
           chrome.storage.local.get(null, request => {
             document.getElementById("name").innerHTML = `${request.first_name} ${request.last_name}`;
@@ -47,6 +46,8 @@ if (chrome.cookies) {
             if (button) {
               
               button.addEventListener('click', (event) => {
+                console.log(event);
+                
                 event.preventDefault()
                 chrome.runtime.sendMessage({
                   message: 'fetch',

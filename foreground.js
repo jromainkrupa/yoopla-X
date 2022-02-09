@@ -4,7 +4,10 @@ function parsingDom() {
         ce_name = el.innerText.split(/\s/,2)
         ce_job_title = el.parentNode.nextElementSibling.innerText
         ce_linkedin_url = window.location.href
-        ce_profile_url = document.querySelector(`img[alt='${el.innerText}']`).src
+        ce_profile = document.querySelector(`img[alt='${el.innerText}']`)
+        if (ce_profile) {
+                ce_profile_url = ce_profile.src
+        }
         ce_current_company_html = document.querySelector('[aria-label="Current company"]')
         console.log(ce_current_company_html);
         
