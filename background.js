@@ -10,14 +10,17 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 })
 
-const storeProfileInYoopla = (request) => {
+const storeProfileInYoopla = (requestFromMessage) => {
+  console.log(requestFromMessage)
   chrome.storage.local.get(null, request => {
+    console.log(requestFromMessage)
     fetch("https://www.yoopla-ats.com/api/v1/candidates", {
       method: "POST",
       headers: {
         'X-User-Token': request.user_token,
         'Content-Type': 'application/json' },
       body: JSON.stringify({
+        user_id: requestFromMessage.user_id,
         first_name: request.first_name,
         last_name: request.last_name,
         current_job_title: request.current_job_title,
@@ -28,6 +31,8 @@ const storeProfileInYoopla = (request) => {
     })
     .then((response) => response.json())
     .then((data) => {
+      console.log(data)
+      console.log('message' in data)
       if ('errors' in data) {
         chrome.runtime.sendMessage({
           msg: "errors_in_fetch",
@@ -36,12 +41,13 @@ const storeProfileInYoopla = (request) => {
               errors: data['errors']
           }
         });
-      } else if ('id' in data) {
+      } else if ('message' in data) {
+        console.log('hee')
         chrome.runtime.sendMessage({
           msg: "successful_fetch",
           content: {
               subject: "success",
-              content: data
+              content: data['message']
           }
         });
       }

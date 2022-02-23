@@ -25,10 +25,11 @@ const isLinkedinProfileRegex = /https:\/\/www.linkedin.com\/in/
 // retrieving infos from local storage to insert into popup
 if (chrome.cookies) {
 
-  chrome.cookies.get({url:'https://www.yoopla-ats.com', name:'signed_in'}, function(cookie, tab) {
+  chrome.cookies.get({url:'https://www.yoopla-ats.com/', name:'signed_in'}, function(cookie, tab) {
     // if yoopla's cookie signed_in present
     if (cookie) {
       query = { active: true, currentWindow: true };
+      console.log(cookie)
       chrome.tabs.query(query, (tabs) => {
         let currentTab = tabs[0];
 
@@ -51,6 +52,7 @@ if (chrome.cookies) {
                 event.preventDefault()
                 chrome.runtime.sendMessage({
                   message: 'fetch',
+                  user_id: cookie.value,
                   first_name: request.first_name,
                   last_name: request.last_name,
                   current_job_title: request.current_job_title,
@@ -69,6 +71,7 @@ if (chrome.cookies) {
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
+    console.log(request)
     if (request.msg === "errors_in_fetch") {
       console.log(request.content.errors.first);
 
