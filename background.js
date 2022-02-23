@@ -6,20 +6,20 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         target: { tabId: tabId },
         files: ["./foreground.js"],
       })
-    } 
+    }
   }
 })
 
 const storeProfileInYoopla = (request) => {
   chrome.storage.local.get(null, request => {
-    fetch("https://app.yoopla.io/api/v1/hunter/candidates", {
+    fetch("https://www.yoopla-ats.com/api/v1/candidates", {
       method: "POST",
       headers: {
         'X-User-Token': request.user_token,
         'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        first_name: request.first_name, 
-        last_name: request.last_name, 
+      body: JSON.stringify({
+        first_name: request.first_name,
+        last_name: request.last_name,
         current_job_title: request.current_job_title,
         linkedin_url: request.linkedin_url,
         avatar_url: request.profile_url,
@@ -27,10 +27,10 @@ const storeProfileInYoopla = (request) => {
       })
     })
     .then((response) => response.json())
-    .then((data) => {        
+    .then((data) => {
       if ('errors' in data) {
         chrome.runtime.sendMessage({
-          msg: "errors_in_fetch", 
+          msg: "errors_in_fetch",
           content: {
               subject: "errors",
               errors: data['errors']
@@ -38,7 +38,7 @@ const storeProfileInYoopla = (request) => {
         });
       } else if ('id' in data) {
         chrome.runtime.sendMessage({
-          msg: "successful_fetch", 
+          msg: "successful_fetch",
           content: {
               subject: "success",
               content: data
@@ -46,18 +46,18 @@ const storeProfileInYoopla = (request) => {
         });
       }
     })
-    
+
   })
 }
 
 // listening to messages
-const messageFunctionMapper = { 
+const messageFunctionMapper = {
   fetch: storeProfileInYoopla
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log(request);
-  
+
   if (request.message in messageFunctionMapper) {
     messageFunctionMapper[request.message](request)
   }
